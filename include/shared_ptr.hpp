@@ -9,7 +9,7 @@ public:
     shared_ptr(T* ptr);
     shared_ptr(shared_ptr<T>& other);
     auto operator= (shared_ptr & other)->shared_ptr &;
-    //auto operator =(shared_ptr && other) -> shared_ptr &;
+    auto operator =(shared_ptr && other) -> shared_ptr &;
     //auto reset() -> void;
     auto operator ->() const -> T *;
     auto operator *() const -> T *;
