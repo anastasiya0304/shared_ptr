@@ -15,11 +15,26 @@ public:
     auto operator *() const -> T *;
     ~shared_ptr();
     auto count() const->size_t;
- 
+    auto swap(shared_ptr& other) noexcept -> void;
+    auto swap(shared_ptr&& other) noexcept -> void;
 private:
     T* ptr;
     size_t *count;
 };
+
+template<typename T> 
+auto shared_ptr<T>::swap(shared_ptr & other) noexcept -> void 
+{
+	std::swap(ptr, other.ptr);
+	std::swap(count, other.count);
+}
+
+template<typename T> 
+auto shared_ptr<T>::swap(shared_ptr && other) noexcept -> void 
+{
+	std::swap(ptr, other.ptr);
+	std::swap(count, other.count);
+}
 
 template<typename T>
 shared_ptr<T>::shared_ptr():ptr(nullptr), count(nullptr)
@@ -35,6 +50,13 @@ shared_ptr<T>::shared_ptr(shared_ptr<T>& other):count(other.count),ptr(other.ptr
 template<typename T>
 auto shared_ptr<T>::operator =(const shared_ptr & other) -> shared_ptr &
 {
+	if (this != &other) 
+	{
+		(shared_ptr<T>(other)).swap(*this);
+	}
+	return *this;
+}	
+/*{
     if(this!=&other)
          {
             if(count) {
@@ -46,16 +68,25 @@ auto shared_ptr<T>::operator =(const shared_ptr & other) -> shared_ptr &
                 else (*count)--;
             }
         ptr= other.ptr;
-        count=other.count;
+        count=other.count;b 
         (*count)++;
     }
     return *this;
-}
+}*/
+
 template<typename T>
- shared_ptr<T>::shared_ptr(shared_ptr && other): ptr_(other.ptr_),count_(other.count_)
+auto shared_ptr<T>::operator =(shared_ptr && other) -> shared_ptr &
+{
+        if(this !=&other)
+	this->swap(std::move(other));
+	return *this;
+}
+
+template<typename T>
+ shared_ptr<T>::shared_ptr(shared_ptr && other): ptr(other.ptr),count(other.count)
     {
-        other.ptr_ = nullptr;
-	 other.count_=nullptr;
+        other.ptr = nullptr;
+	 other.count=nullptr;
     }
     
 template<typename T>
@@ -63,7 +94,7 @@ shared_ptr<T>::~shared_ptr(){
     if (count) {
         if (*count == 1) {
             delete count;
-            delete ptr_;
+            delete ptr;
         }
         else (*count)--;
     }
@@ -75,13 +106,22 @@ auto shared_ptr<T>::count() const->size_t{
 template<typename T> //разыменовывает указатель
 auto shared_ptr<T>::operator ->() const -> T *
 {
-        if(count_) {return ptr_;}
-        else {throw std::logic_error("Error");}
+        if(cou) {return ptr;}
+        else 
+	{
+		throw std::logic_error("Error");
+	}
 }
 template<typename T>
-auto shared_ptr<T>::operator *() const -> T *
+auto shared_ptr<T>::operator *() const -> T &
 {
-       if(count_) {return *ptr_;}
-       else {throw std::logic_error("Error");}
+       if(count) 
+       {
+       		return *ptr;
+       }
+       else 
+       {
+      		 throw std::logic_error("Error");
+       }
 }
 
