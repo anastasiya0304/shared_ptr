@@ -99,14 +99,19 @@ shared_ptr<T>::~shared_ptr(){
         else (*count)--;
     }
 }
+
 template<typename T>
-auto shared_ptr<T>::count() const->size_t{
+auto shared_ptr<T>::count() const->size_t
+{
    return (count != nullptr ? *count : 0);
 }
 template<typename T> //разыменовывает указатель
 auto shared_ptr<T>::operator ->() const -> T *
 {
-        if(cou) {return ptr;}
+        if(count) 
+	{
+	return ptr;
+	}
         else 
 	{
 		throw std::logic_error("Error");
