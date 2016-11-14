@@ -10,13 +10,12 @@ public:
     shared_ptr(shared_ptr<T>& other);
     auto operator= (shared_ptr & other)->shared_ptr &;
     auto operator =(shared_ptr && other) -> shared_ptr &;
-    //auto reset() -> void;
     auto operator ->() const -> T *;
     auto operator *() const -> T *;
     ~shared_ptr();
     auto count() const->size_t;
     auto swap(shared_ptr& other) noexcept -> void;
-    auto swap(shared_ptr&& other) noexcept -> void;
+    
 private:
     T* ptr;
     size_t *count;
@@ -24,13 +23,6 @@ private:
 
 template<typename T> 
 auto shared_ptr<T>::swap(shared_ptr & other) noexcept -> void 
-{
-	std::swap(ptr, other.ptr);
-	std::swap(count, other.count);
-}
-
-template<typename T> 
-auto shared_ptr<T>::swap(shared_ptr && other) noexcept -> void 
 {
 	std::swap(ptr, other.ptr);
 	std::swap(count, other.count);
@@ -90,7 +82,8 @@ template<typename T>
     }
     
 template<typename T>
-shared_ptr<T>::~shared_ptr(){
+shared_ptr<T>::~shared_ptr()
+{
     if (count) {
         if (*count == 1) {
             delete count;
@@ -105,7 +98,7 @@ auto shared_ptr<T>::count() const->size_t
 {
    return (count != nullptr ? *count : 0);
 }
-template<typename T> //разыменовывает указатель
+template<typename T> 
 auto shared_ptr<T>::operator ->() const -> T *
 {
         if(count) 
