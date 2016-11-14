@@ -71,4 +71,4 @@ script:
     - cd "${BUILD_DIR}"
     - cmake -DGLOBAL_PROJECT_NAME=stack ..
     - make
-- make test ARGS="-VV"
+    - make test ARGS="-VV"
