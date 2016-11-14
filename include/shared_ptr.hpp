@@ -54,7 +54,8 @@ shared_ptr<T>::shared_ptr(shared_ptr && other) : ptr_(nullptr), count_(nullptr) 
 template<class T>
 auto shared_ptr<T>::operator=(shared_ptr && other) -> shared_ptr & {//noexcept
 	if (this != &other) {
-		swap(other);
+(shared<T> tmp(std::move(other));
+ this ->swap(tmp);
 	}
 	return *this;
 }
