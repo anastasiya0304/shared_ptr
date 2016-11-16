@@ -10,7 +10,7 @@ public:
 	shared_ptr(shared_ptr const &);//strong
 	auto operator =(shared_ptr const &) -> shared_ptr &; //strong
 	shared_ptr(shared_ptr &&);//noexcept
-	auto operator =(shared_ptr &&) -> shared_ptr&; //noexcept
+	operator =(shared_ptr &&) -> shared_ptr&; //noexcept
 	~shared_ptr(); //noexcept
 	auto swap(shared_ptr &) -> void; //noexcept
 	auto reset() -> void;//noexcept
@@ -52,7 +52,7 @@ shared_ptr<T>::shared_ptr(shared_ptr && other) : ptr_(nullptr), count_(nullptr) 
 }
 
 template<class T>
-auto shared_ptr<T>::operator=(shared_ptr && other):ptr_(std::move(other.ptr_)),count_(std::move(other.count_)) 
+shared_ptr<T>::operator=(shared_ptr && other):ptr_(std::move(other.ptr_)),count_(std::move(other.count_)) 
 	{
 	other.ptr_ = nullptr;
 	other.count_ = nullptr;
