@@ -52,9 +52,9 @@ shared_ptr<T>::shared_ptr(shared_ptr && other) : ptr_(nullptr), count_(nullptr) 
 }
 
 template<class T>
-auto shared_ptr<T>::operator=(shared_ptr && other) -> shared_ptr : {//noexcept
+auto shared_ptr<T>::operator=(shared_ptr && other) -> shared_ptr & {//noexcept
 	ptr_(std::move(other.ptr_)),
-	counter_(std::move(other.count_)) {
+	count_(std::move(other.count_)) {
 	other.ptr_ = nullptr;
 	other.count_ = nullptr;
 }
