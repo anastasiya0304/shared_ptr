@@ -52,7 +52,7 @@ shared_ptr<T>::shared_ptr(shared_ptr && other) : ptr_(nullptr), count_(nullptr) 
 }
 
 template <typename T>
-auto shared_pointer<T>::operator=(shared_ptr && other) -> shared_ptr&
+auto shared_ptr<T>::operator=(shared_ptr && other) -> shared_ptr&
 {
 	if (this != &other) 
 	{
