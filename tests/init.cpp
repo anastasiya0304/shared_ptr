@@ -1,4 +1,4 @@
-#include "shared_ptr.hpp"
+#include "sharedptr.hpp"
 #include <catch.hpp>
 
 SCENARIO("Init", "[Init]"){
@@ -41,16 +41,13 @@ SCENARIO("move constructor", "[move c]"){
 }
 
 SCENARIO("move operator", "[move o]"){
-  shared_ptr<size_t> f_sp(new size_t[10]);
-	auto s_sp = std::move(f_sp);
-
-	REQUIRE(f_sp.get() == nullptr);
-	REQUIRE(f_sp.use_count() == 0);
-	REQUIRE(f_sp.unique() == false);
-
-	REQUIRE(s_sp.get() != nullptr);
-	REQUIRE(s_sp.use_count() == 1);
-	REQUIRE(s_sp.unique() == true);
+  shared_ptr<int> a(new int(5));
+  shared_ptr<int> b;
+  b = std::move(a);
+  REQUIRE(*b == 5);
+  REQUIRE(a.get() == nullptr);
+  REQUIRE(b.use_count() == 1);
+  REQUIRE(a.use_count() == 0);
 }
 
 SCENARIO("reset", "[reset]"){
